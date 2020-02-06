@@ -63,6 +63,9 @@ public class Images{
 	@SerializedName("fixed_width_small_still")
 	private FixedWidthSmallStill fixedWidthSmallStill;
 
+	@SerializedName("hd")
+	private Hd hd;
+
 	@SerializedName("480w_still")
 	private JsonMember480wStill jsonMember480wStill;
 
@@ -227,6 +230,14 @@ public class Images{
 		return fixedWidthSmallStill;
 	}
 
+	public void setHd(Hd hd){
+		this.hd = hd;
+	}
+
+	public Hd getHd(){
+		return hd;
+	}
+
 	public void setJsonMember480wStill(JsonMember480wStill jsonMember480wStill){
 		this.jsonMember480wStill = jsonMember480wStill;
 	}
@@ -282,6 +293,7 @@ public class Images{
 			",fixed_height_still = '" + fixedHeightStill + '\'' + 
 			",preview_webp = '" + previewWebp + '\'' + 
 			",fixed_width_small_still = '" + fixedWidthSmallStill + '\'' + 
+			",hd = '" + hd + '\'' + 
 			",480w_still = '" + jsonMember480wStill + '\'' + 
 			",fixed_width_still = '" + fixedWidthStill + '\'' + 
 			",downsized = '" + downsized + '\'' + 

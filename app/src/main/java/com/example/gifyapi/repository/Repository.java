@@ -16,8 +16,8 @@ public class Repository {
         retrofit = RetrofitInstance.getInstance();
     }
 
-    public static class RepositoryHolder {
-        public static final Repository INSTANCE = new Repository();
+    private static class RepositoryHolder {
+        private static final Repository INSTANCE = new Repository();
     }
 
     public static Repository getInstance() {
