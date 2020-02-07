@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.gifyapi.model.DownsizedLarge;
+import com.example.gifyapi.model.MainRoot;
 import com.example.gifyapi.repository.Repository;
 
 import java.util.ArrayList;
@@ -16,23 +18,23 @@ import retrofit2.Response;
 
 public class MainActivityViewModel extends ViewModel {
 
-    private MutableLiveData<List<String>> gifs = new MutableLiveData<>();
+    private MutableLiveData<MainRoot> gifs = new MutableLiveData<>();
     private MutableLiveData<String> error = new MutableLiveData<>();
 
     private Repository repo = Repository.getInstance();
 
-    public void fetchGifyData(String query) {
+    public void fetchGifyData(final String query) {
         repo.getGifs(query)
-                .enqueue(new Callback<List<String>>() {
+                .enqueue(new Callback<MainRoot>() {
                     @Override
-                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                    public void onResponse(Call<MainRoot> call, Response<MainRoot> response) {
                         gifs.postValue(response.body());
                         error.postValue("");
                     }
 
                     @Override
-                    public void onFailure(Call<List<String>> call, Throwable t) {
-                        gifs.postValue(new ArrayList<String>());
+                    public void onFailure(Call<MainRoot> call, Throwable t) {
+                        gifs.postValue(new MainRoot());
                         error.postValue(t.getMessage());
                     }
                 });
@@ -42,7 +44,7 @@ public class MainActivityViewModel extends ViewModel {
         return new Random().nextInt(10);
     }
 
-    public LiveData<List<String>> getGifyLiveData() {
+    public LiveData<MainRoot> getGifyLiveData() {
         return gifs;
     }
 

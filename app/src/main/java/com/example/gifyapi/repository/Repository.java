@@ -1,5 +1,7 @@
 package com.example.gifyapi.repository;
 
+import com.example.gifyapi.model.DownsizedLarge;
+import com.example.gifyapi.model.MainRoot;
 import com.example.gifyapi.retrofit.GifyService;
 import com.example.gifyapi.retrofit.RetrofitInstance;
 
@@ -24,13 +26,12 @@ public class Repository {
         return RepositoryHolder.INSTANCE;
     }
 
-    public Call<List<String>> getGifs(String query) {
+    public Call<MainRoot> getGifs(String query) {
         return retrofit.create(GifyService.class)
                 .getGify(
                         "7j7AaeeoCxyly5dcEIsoLLUVlhQnadgj",
                         1,
                         query
-
                 );
     }
 }

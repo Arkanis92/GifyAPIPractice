@@ -21,10 +21,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.gifyapi.R;
 import com.example.gifyapi.model.DataItem;
-import com.example.gifyapi.model.Response;
+import com.example.gifyapi.model.DownsizedLarge;
+import com.example.gifyapi.model.MainRoot;
 import com.example.gifyapi.viewmodel.MainActivityViewModel;
 
 import java.util.List;
+
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,9 +37,7 @@ public class GifyFragment extends Fragment {
     private MainActivityViewModel viewModel;
     private Button btnSubmit;
     private EditText etQuery;
-    private ImageView ivGify;
-    private DataItem dataItem;
-    private Response response;
+    private GifImageView ivGify;
 
     public GifyFragment() {
         // Required empty public constructor
@@ -71,27 +72,28 @@ public class GifyFragment extends Fragment {
         });
     }
 
-    private void setupObservers() {
-        viewModel.getGifyLiveData().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                if (strings != null) {
-                    if (!strings.isEmpty()){
-                        Glide.with(ivGify.getContext())
-                                .load(strings)
-                                .placeholder(R.drawable.ic_launcher_background)
-                                .into(ivGify);
+
+        private void setupObservers() {
+            viewModel.getGifyLiveData().observe(getActivity(), new Observer<MainRoot>() {
+                @Override
+                public void onChanged(MainRoot mainRoots) {
+                    if(mainRoots != null) {
+                        if(!mainRoots.getData().isEmpty()) {
+                            Glide.with(ivGify.getContext())
+                                    .load(mainRoots.getData().get(0).getImages().getOriginal().getUrl())
+                                    .placeholder(R.drawable.ic_launcher_background)
+                                    .into(ivGify);
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        viewModel.getErrorLiveData().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String isError) {
-                if (!isError.isEmpty())
-                    Toast.makeText(getActivity(), isError, Toast.LENGTH_SHORT).show();
-            }
-        });
+            viewModel.getErrorLiveData().observe(this, new Observer<String>() {
+                @Override
+                public void onChanged(String isError) {
+                    if (!isError.isEmpty())
+                        Toast.makeText(getActivity(), isError, Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 }
